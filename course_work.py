@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # ==========================================
-# КОНСТАНТЫ И ПАРАМЕТРЫ [cite: 24-28]
+# КОНСТАНТЫ И ПАРАМЕТРЫ
 # ==========================================
 e = 1.6e-19  # Элементарный заряд (C)
 kB = 1.38e-23  # Постоянная Больцмана (J/K)
@@ -34,7 +34,7 @@ def ideal_solar_cell(V, m, J_sc, J_0):
 # Диапазон напряжений для графика
 V_ideal = np.linspace(0, 0.8, 100)
 
-# 1. Построение графиков для разных m [cite: 20]
+# 1. Построение графиков для разных m
 # m_values = [1.5, 2.0, 2.5]
 m_values = np.linspace(1.5, 2.5, 3)
 plt.figure(figsize=(12, 5))
@@ -53,7 +53,7 @@ plt.ylabel("Плотность тока J (мА/см²)")
 plt.grid(True)
 plt.legend()
 
-# График P-V [cite: 19]
+# График P-V
 plt.subplot(1, 2, 2)
 for m in m_values:
     J_vals = ideal_solar_cell(V_ideal, m, J_sc, J_0)
