@@ -12,9 +12,6 @@ m = 1.5  # Фактор идеальности
 Rs = 0.05  # Фиксированное Rs (Ом)
 Vt = (kB * T) / e  # Термическое напряжение
 
-# Диапазон значений Rsh для анализа (от очень малых до очень больших)
-Rsh_values = [0.1, 1, 10, 100, 1000]
-
 
 # 1. Функция для поиска тока J методом Ньютона-Рафсона
 def solve_J(V, Rsh):
@@ -54,24 +51,9 @@ def find_voc(Rsh):
 
 
 # --- ПОСТРОЕНИЕ ГРАФИКОВ ---
-V_range = np.linspace(0, 0.5, 100)
+V_range = np.linspace(0, 0.8, 100)
 plt.figure(figsize=(12, 5))
 
-# Левый график: J-V характеристики
-plt.subplot(1, 2, 1)
-for Rsh in Rsh_values:
-    J_vals = [solve_J(v, Rsh) * 1000 for v in V_range]  # в мА/см^2
-    plt.plot(V_range, J_vals, label=f"Rsh={Rsh} Ω")
-
-plt.title(f"J-V Характеристики (Rs={Rs} Ω)")
-plt.xlabel("Напряжение (В)")
-plt.ylabel("Плотность тока (мА/см²)")
-plt.ylim(0, J_sc * 1000 + 5)
-plt.grid(True)
-plt.legend()
-
-# Правый график: Зависимость Voc от Rsh (логарифмическая шкала)
-plt.subplot(1, 2, 2)
 Rsh_axis = np.logspace(-1, 4, 50)
 Voc_vals = [find_voc(r) for r in Rsh_axis]
 

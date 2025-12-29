@@ -85,6 +85,44 @@ plt.show()
 print("\n--- ЧАСТЬ 2: Реальная ячейка (Группа МЭН) ---")
 print("Варьируем Rsh, Rs = const")
 
+
+# Функция для поиска Voc (когда J=0)
+def find_voc(Rsh):
+    # При J=0 уравнение: J_sc - J_0(exp(e*V/(m*kB*T))-1) - V/(Rsh*A) = 0
+    V = 0.3  # Начальное приближение
+    for _ in range(50):
+        arg = (e * V) / (m * kB * T)
+        term_exp = np.exp(arg)
+        f = J_sc - J_0 * (term_exp - 1) - V / (Rsh * A)
+        df = -J_0 * (e / (m * kB * T)) * term_exp - 1 / (Rsh * A)
+        V_new = V - f / df
+        if abs(V_new - V) < 1e-7:
+            return V_new
+        V = V_new
+    return V
+
+
+# --- ПОСТРОЕНИЕ ГРАФИКОВ ---
+V_range = np.linspace(0, 0.5, 100)
+plt.figure(figsize=(12, 5))
+
+Rsh_axis = np.logspace(-1, 4, 50)
+Rsh_axis = [i for i in range(1, 10000)]
+Rsh_axis = np.arange(0, 50, 0.25)
+print(Rsh_axis)
+Voc_vals = [find_voc(r) for r in Rsh_axis]
+
+# plt.semilogx(Rsh_axis, Voc_vals, color="red", linewidth=2)
+plt.plot(Rsh_axis, Voc_vals, color="red", linewidth=2)
+plt.title("Зависимость Voc от шунтирующего сопротивления")
+plt.xlabel("Rsh (Ом) - логарифмическая шкала")
+plt.ylabel("Voc (Вольт)")
+plt.grid(True, which="both", ls="-")
+
+plt.tight_layout()
+plt.show()
+
+
 # Параметры для части 2
 m_real = 1.5  # Фиксируем m для сравнения сопротивлений
 Rs = 0.05  # Rs = 50 mOhm = 0.05 Ohm (для площади 100cm2)
